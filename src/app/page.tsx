@@ -59,7 +59,7 @@ interface QueryParam {
 
 const extractQueryParams = (url: string): QueryParam[] => {
   if (!url.includes('http') && !url.includes('https')) {
-    console.log('URLにhttpまたはhttpsが含まれていません。')
+    // console.log('URLにhttpまたはhttpsが含まれていません。')
     return []
   }
 
