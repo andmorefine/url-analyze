@@ -1,15 +1,26 @@
-'use client'
-import { useEffect, useState } from 'react'
+import { headers } from 'next/headers'
 
-const Home = () => {
-  const [currentUrl, setCurrentUrl] = useState('')
+interface DynamicObject {
+  [key: string]: string | number
+}
 
-  useEffect(() => {
-    // コンポーネントのマウント後（クライアントサイドでのみ実行される）に現在のURLをstateにセット
-    setCurrentUrl(window.location.href)
-  }, [])
+interface QueryParam {
+  name: string
+  value: string | number
+}
 
-  const queryParams = extractQueryParams(currentUrl)
+const createQueryParams = (obj: DynamicObject): QueryParam[] => {
+  return Object.keys(obj).map((key) => ({
+    name: key,
+    value: obj[key],
+  }))
+}
+
+const Home = async ({ searchParams }: { searchParams: DynamicObject }) => {
+  const headersList = headers()
+  const currentUrl = headersList.get('x-url') || ''
+
+  const queryParams = createQueryParams(searchParams)
 
   return (
     <main>
@@ -50,34 +61,6 @@ const Home = () => {
       </table>
     </main>
   )
-}
-
-interface QueryParam {
-  name: string
-  value: string
-}
-
-const extractQueryParams = (url: string): QueryParam[] => {
-  if (!url.includes('http') && !url.includes('https')) {
-    // console.log('URLにhttpまたはhttpsが含まれていません。')
-    return []
-  }
-
-  // URLオブジェクトを作成
-  const urlObject = new URL(url)
-
-  // URLSearchParamsオブジェクトを取得
-  const queryParams = new URLSearchParams(urlObject.search)
-
-  // QueryParam配列を作成
-  const queryParamsArray: QueryParam[] = []
-
-  // 各クエリパラメータに対して、指定の形式に変換して配列に追加
-  queryParams.forEach((value, name) => {
-    queryParamsArray.push({ name, value })
-  })
-
-  return queryParamsArray
 }
 
 export default Home
