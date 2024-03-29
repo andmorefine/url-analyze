@@ -1,0 +1,5 @@
+{
+  "eslint.workingDirectories": ["./user/packages/client"],
+  "tailwindCSS.experimental.classRegex": ["classNames\\(([^)]*)\\)"],
+  "typescript.preferences.importModuleSpecifier": "non-relative"
+}
