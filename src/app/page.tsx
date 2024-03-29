@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState } from 'react'
 
-export default () => {
+const Home = () => {
   const [currentUrl, setCurrentUrl] = useState('')
 
   useEffect(() => {
@@ -79,3 +79,5 @@ const extractQueryParams = (url: string): QueryParam[] => {
 
   return queryParamsArray
 }
+
+export default Home
