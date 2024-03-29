@@ -1,25 +1,29 @@
 import { headers } from 'next/headers'
 
 interface DynamicObject {
-  [key: string]: string | number
+  [key: string]: string | string[]
 }
 
 interface QueryParam {
-  name: string
-  value: string | number
+  key: string
+  value: string
 }
 
 const createQueryParams = (obj: DynamicObject): QueryParam[] => {
-  return Object.keys(obj).map((key) => ({
-    name: key,
-    value: obj[key],
-  }))
+  return Object.keys(obj).map((key) => {
+    // valueが配列の場合は最後の要素を、そうでない場合はvalue自身を使用する
+    const value = Array.isArray(obj[key])
+      ? obj[key][obj[key].length - 1]
+      : obj[key].toString()
+
+    return { key, value }
+  })
 }
 
 const Home = async ({ searchParams }: { searchParams: DynamicObject }) => {
   const headersList = headers()
   const currentUrl = headersList.get('x-url') || ''
-
+  // params
   const queryParams = createQueryParams(searchParams)
 
   return (
