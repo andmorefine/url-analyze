@@ -48,13 +48,13 @@ const Home = async ({ searchParams }: { searchParams: DynamicObject }) => {
           </tr>
         </thead>
         <tbody className="bg-white">
-          {queryParams.map(({ name, value }, index) => (
+          {queryParams.map(({ key, value }, index) => (
             <tr key={index} className="hover:bg-gray-50">
               <td className="px-2 py-2 border-b border-gray-200 text-sm text-gray-900">
                 {index + 1}
               </td>
               <td className="px-2 py-2 border-b border-gray-200 text-sm text-gray-900">
-                {name}
+                {key}
               </td>
               <td className="px-2 py-2 border-b border-gray-200 text-sm text-gray-900">
                 {value}
